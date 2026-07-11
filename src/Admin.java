@@ -108,10 +108,17 @@ public class Admin extends Person{
                     user.setLastName(newLastName);
                     break;
                 case 3:
+                    while(true){
                     System.out.println("Enter new username: ");
                     String newUsername = input.nextLine();
+                    if(user.isUniqueUsername(users, newUsername)){
                     user.setUsername(newUsername);
                     break;
+                    }
+                    else{
+                        System.out.println("Username taken, try again.");
+                    }
+                    }
                 case 4:
                     System.out.println("Enter new password: ");
                     String newPassword = input.nextLine();
