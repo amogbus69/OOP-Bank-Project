@@ -1,3 +1,8 @@
+/**
+ * 
+ * The base for all other members of the bank. Has all identifying 
+ * information for a person.
+ */
 public class Person {
 
     protected int userID;
