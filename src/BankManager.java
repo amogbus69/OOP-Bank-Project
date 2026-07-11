@@ -1,3 +1,7 @@
+/**
+ * 
+ * Holds the information for a member with the type bank manager.
+ */
 public class BankManager extends Person{
 
     public BankManager(int id,
