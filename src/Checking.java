@@ -1,3 +1,8 @@
+/**
+ * 
+ * A type of account where the owner of the account can withdraw
+ * their money.
+ */
 public class Checking extends Account {
 
     public Checking(int accountNumber) {
