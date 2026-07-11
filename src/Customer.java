@@ -1,3 +1,8 @@
+/**
+ * 
+ * a customer is a person who has a checking, saving, and credit 
+ * account with the bank.
+ */
 public class Customer extends Person {
 
     private Saving saving;
@@ -29,18 +34,33 @@ public class Customer extends Person {
 
     }
 
+    /**
+     * 
+     * Gets the customers saving account
+     * @return the saving account associated with the customer
+     */
     public Saving getSaving(){
 
         return saving;
 
     }
 
+    /**
+     * 
+     * Gets the customers checking account
+     * @return the checking account associated with the customer
+     */
     public Checking getChecking(){
 
         return checking;
 
     }
 
+    /**
+     * 
+     * Gets the customers credit account
+     * @return the credit account associated with the customer
+     */
     public Credit getCredit(){
 
         return credit;
