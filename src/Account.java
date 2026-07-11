@@ -1,3 +1,7 @@
+/**
+ * 
+ * The base for all account types.
+ */
 public abstract class Account {
 
     protected int accountNumber;
