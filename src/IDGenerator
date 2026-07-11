@@ -1,0 +1,18 @@
+public class IDGenerator {
+
+    private static int userID =2000;
+    private static int accountID = 100000;
+
+    public static int nextUserID() {
+
+        return userID++;
+
+    }
+
+    public static int nextAccountNumber() {
+
+        return accountID++;
+
+    }
+
+}
