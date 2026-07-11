@@ -1,3 +1,8 @@
+/**
+ * 
+ * A type of account where the user can withdraw money up to
+ * a certain limit. The limit is based on their credit score.
+ */
 public class Credit extends Account{
     
     private double creditLimit;
