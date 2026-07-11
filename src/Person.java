@@ -79,6 +79,15 @@ public class Person {
         this.lastName = newLastName;
     }
 
+    public boolean isUniqueUsername(ArrayList<Person> users, String newUsername){
+        for(Person user: users){
+            if(user.getUsername().equals(newUsername)){
+                return false;
+            }
+        }
+        return true;
+    }
+    
     @Override
     public String toString() {
 
