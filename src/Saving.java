@@ -1,3 +1,8 @@
+/**
+ * 
+ * A type of account where the owner of the account can store and 
+ * withdraw their money.
+ */
 public class Saving extends Account {
 
     public Saving(int accountNumber) {
