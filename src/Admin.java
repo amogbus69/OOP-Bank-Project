@@ -1,4 +1,9 @@
 import java.util.*;
+/**
+ * 
+ * An admin is a person who is able to manage all other members
+ * of the bank.
+ */
 public class Admin extends Person{
 
     public Admin(int userID,
@@ -19,12 +24,25 @@ public class Admin extends Person{
         users.add(newUser);
     }
 
+    /**
+     * 
+     * Allows the Admin to see all members in the system.
+     * Will print all information for each member.
+     * @param users all the users in the system
+     */
     public void viewAllMembers(ArrayList<Person> users){
         for(Person user : users){
             System.out.println(user.toString());
         }
     }
 
+    /**
+     * 
+     * Allows the Admin to search for one member.
+     * If the member is found all their information will be shown.
+     * @param users all the users in the system.
+     * @param query the information the admin is using to search
+     */
     public void viewOneMember(ArrayList<Person> users, String query){
         Person user = this.searchMembers(users, query);
         if(user != null){
@@ -35,6 +53,14 @@ public class Admin extends Person{
         }
     }
 
+    /**
+     * 
+     * A private method to facilitate searching for members based on
+     * their userID, name, or username.
+     * @param users all users in the system
+     * @param query the the information the admin is using to search
+     * @return the user if found, or null if not found
+     */
     private Person searchMembers(ArrayList<Person> users, String query){
         for(Person user : users){
             if((String.valueOf(user.getUserID())).equals(query)){
@@ -50,6 +76,14 @@ public class Admin extends Person{
         return null;
     }
 
+    /**
+     * 
+     * Allows the admin to update a members name, username,
+     * or password.
+     * @param users all users in the system.
+     * @param query the information the admin is using to search
+     * @param input the scanner being used by the system from RunBank
+     */
     public void updateMember(ArrayList<Person> users, String query, Scanner input){
         Person user = this.searchMembers(users, query);
         if(user != null){
@@ -92,6 +126,14 @@ public class Admin extends Person{
         }
     }
 
+    /**
+     * 
+     * Allows the admin to delete a member after confirming
+     * they want to delete them.
+     * @param users all users in the system.
+     * @param query the information the admin is using to search
+     * @param input the scanner being used by the system from RunBank
+     */
     public void deleteMember(ArrayList<Person> users, String query, Scanner input){
         Person user = this.searchMembers(users, query);
         if(user != null){
