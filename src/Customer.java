@@ -67,4 +67,18 @@ public class Customer extends Person {
 
     }
 
+    public void updateUsername(ArrayList<Person> users, Person user, Scanner input){
+        while(true){
+            System.out.println("Enter new username: ");
+            String newUsername = input.nextLine();
+            if(user.isUniqueUsername(users, newUsername)){
+                user.setUsername(newUsername);
+                break;
+            }
+            else{
+                System.out.println("Username taken, try again.");
+            }
+        }
+    }
+
 }
