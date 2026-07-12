@@ -12,24 +12,6 @@ import java.util.Scanner;
  * Honesty Statement: Team members collaborated on this project as
  * permitted by the assignment; no outside sources or non-team members
  * contributed code.
- *
- * MEL-CODE CHANGE: This file previously would not compile at all:
- *   - registerMenu() had a stray closing brace right after
- *     registerCustomer() that broke the if/else if chain (syntax error).
- *   - loginMenu() and exitProgram() were called from mainMenu() but were
- *     never defined anywhere in the file.
- *   - registerCustomer() never read Date of Birth into a variable, never
- *     created the Customer object or their accounts, never assigned a
- *     credit score/limit, and never stored the new user anywhere.
- *   - There was no code anywhere that read the Bank Users CSV file.
- * This version fixes those issues and fills in the menu-driven flows
- * required by the assignment (Register/Login/Exit, Customer menus, Admin
- * menus), wires in BankFileManager for reading/writing the Bank Users
- * CSV, IDGenerator for unique IDs, and Logger1 for action logging.
- *
- * ASSUMPTION: Bank Manager login currently only prints a placeholder
- * message, since the assignment states Bank Manager functionality is
- * "in the next part" of the project.
  */
 public class RunBank {
 
