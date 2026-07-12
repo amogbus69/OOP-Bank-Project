@@ -172,7 +172,9 @@ public class RunBank {
 
             switch (choice) {
                 case "1":
-                    manageTransactionsMenu(customer);
+                    // ASSUMPTION: Manage Transactions is deferred to a later
+                    // part of the project (see teammate PR feedback).
+                    System.out.println("Manage Transactions is coming in a later part of the project.");
                     break;
                 case "2":
                     viewBalanceMenu(customer);
@@ -190,159 +192,10 @@ public class RunBank {
         }
     }
 
-    public static void manageTransactionsMenu(Customer customer) {
-        String choice = "";
-        while (!choice.equals("5")) {
-            System.out.println("\nMANAGE TRANSACTIONS");
-            System.out.println("1. Deposit");
-            System.out.println("2. Withdraw");
-            System.out.println("3. Transfer between Accounts");
-            System.out.println("4. Transfer to External Account");
-            System.out.println("5. Back");
-            System.out.print("Enter choice: ");
-
-            choice = scanner.nextLine().trim();
-
-            switch (choice) {
-                case "1":
-                    depositFlow(customer);
-                    break;
-                case "2":
-                    withdrawFlow(customer);
-                    break;
-                case "3":
-                    transferBetweenAccountsFlow(customer);
-                    break;
-                case "4":
-                    transferExternalFlow(customer);
-                    break;
-                case "5":
-                    break;
-                default:
-                    System.out.println("Invalid option.");
-            }
-        }
-    }
-
-    private static Account chooseAccount(Customer customer, String promptLabel) {
-        System.out.println(promptLabel);
-        System.out.println("1. Checking");
-        System.out.println("2. Saving");
-        System.out.println("3. Credit");
-        System.out.print("Enter choice: ");
-        String choice = scanner.nextLine().trim();
-
-        switch (choice) {
-            case "1":
-                return customer.getChecking();
-            case "2":
-                return customer.getSaving();
-            case "3":
-                return customer.getCredit();
-            default:
-                System.out.println("Invalid option.");
-                return null;
-        }
-    }
-
-    private static double promptAmount() {
-        System.out.print("Enter amount: $");
-        String raw = scanner.nextLine().trim();
-        try {
-            double amount = Double.parseDouble(raw);
-            if (amount <= 0) {
-                System.out.println("Amount must be positive.");
-                return -1;
-            }
-            return amount;
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid amount entered.");
-            return -1;
-        }
-    }
-
-    private static void depositFlow(Customer customer) {
-        Account account = chooseAccount(customer, "Deposit into which account?");
-        if (account == null) {
-            return;
-        }
-        double amount = promptAmount();
-        if (amount <= 0) {
-            return;
-        }
-        account.deposit(amount);
-        Logger1.log("User " + customer.getUsername() + " deposited $" + amount
-                + " into account " + account.getAccountNumber());
-        System.out.println("Deposit successful. New balance: $" + String.format("%.2f", account.getBalance()));
-    }
-
-    private static void withdrawFlow(Customer customer) {
-        Account account = chooseAccount(customer, "Withdraw from which account?");
-        if (account == null) {
-            return;
-        }
-        double amount = promptAmount();
-        if (amount <= 0) {
-            return;
-        }
-        if (account.withdraw(amount)) {
-            Logger1.log("User " + customer.getUsername() + " withdrew $" + amount
-                    + " from account " + account.getAccountNumber());
-            System.out.println("Withdrawal successful. New balance: $" + String.format("%.2f", account.getBalance()));
-        } else {
-            System.out.println("Withdrawal failed: insufficient funds/available credit.");
-        }
-    }
-
-    private static void transferBetweenAccountsFlow(Customer customer) {
-        Account from = chooseAccount(customer, "Transfer FROM which account?");
-        if (from == null) {
-            return;
-        }
-        Account to = chooseAccount(customer, "Transfer TO which account?");
-        if (to == null) {
-            return;
-        }
-        if (from == to) {
-            System.out.println("Cannot transfer to the same account.");
-            return;
-        }
-        double amount = promptAmount();
-        if (amount <= 0) {
-            return;
-        }
-        if (from.withdraw(amount)) {
-            to.deposit(amount);
-            Logger1.log("User " + customer.getUsername() + " transferred $" + amount
-                    + " from account " + from.getAccountNumber() + " to account " + to.getAccountNumber());
-            System.out.println("Transfer successful.");
-        } else {
-            System.out.println("Transfer failed: insufficient funds/available credit in source account.");
-        }
-    }
-
-    private static void transferExternalFlow(Customer customer) {
-        // ASSUMPTION: "external accounts" are outside this bank's system,
-        // so we can't validate or deposit into them - we simply withdraw
-        // from the customer's chosen account and log the transfer.
-        Account from = chooseAccount(customer, "Transfer FROM which account?");
-        if (from == null) {
-            return;
-        }
-        System.out.print("Enter external account number: ");
-        String externalAccount = scanner.nextLine().trim();
-        double amount = promptAmount();
-        if (amount <= 0) {
-            return;
-        }
-        if (from.withdraw(amount)) {
-            Logger1.log("User " + customer.getUsername() + " transferred $" + amount
-                    + " from account " + from.getAccountNumber() + " to external account " + externalAccount);
-            System.out.println("Transfer to external account successful.");
-        } else {
-            System.out.println("Transfer failed: insufficient funds/available credit.");
-        }
-    }
+    // MEL-CODE CHANGE: Manage Transactions (deposit/withdraw/transfer) is
+    // deferred to a later part of the project per teammate feedback on the
+    // Part 1 PR. The full implementation (manageTransactionsMenu and its
+    // helpers) is preserved on the 'manage-transactions-wip' branch.
 
     public static void viewBalanceMenu(Customer customer) {
         String choice = "";
