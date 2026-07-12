@@ -9,6 +9,19 @@ public class Checking extends Account {
         super(accountNumber,0);
     }
 
+    /**
+     * MEL-CODE ADDITION: the CSV file gives us a "Checking Starting
+     * Balance" for existing customers - the original constructor always
+     * hardcoded the balance to 0, so there was no way to load existing
+     * customers with their real balance. This overload lets the file
+     * reader pass that starting balance in.
+     * @param accountNumber the account number
+     * @param startingBalance the starting balance from the Bank Users file
+     */
+    public Checking(int accountNumber, double startingBalance) {
+        super(accountNumber, startingBalance);
+    }
+
     @Override
     public boolean withdraw(double amount) {
 

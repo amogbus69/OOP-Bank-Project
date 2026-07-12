@@ -1,7 +1,15 @@
+import java.util.Collection;
+import java.util.Scanner;
+
 /**
  * 
  * a customer is a person who has a checking, saving, and credit 
  * account with the bank.
+ *
+ * MEL-CODE CHANGE: updateUsername() used ArrayList<Person> and Scanner
+ * without importing java.util.ArrayList or java.util.Scanner, which would
+ * not compile. Added the java.util.Scanner import and switched the
+ * collection parameter to Collection<Person> to match Person.isUniqueUsername.
  */
 public class Customer extends Person {
 
@@ -67,7 +75,16 @@ public class Customer extends Person {
 
     }
 
-    public void updateUsername(ArrayList<Person> users, Person user, Scanner input){
+    /**
+     * MEL-CODE ADDITION: no getter existed for creditScore even though it
+     * is stored on every Customer - needed for View Profile / Admin views.
+     * @return the customer's credit score
+     */
+    public int getCreditScore(){
+        return creditScore;
+    }
+
+    public void updateUsername(Collection<Person> users, Person user, Scanner input){
         while(true){
             System.out.println("Enter new username: ");
             String newUsername = input.nextLine();

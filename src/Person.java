@@ -1,7 +1,15 @@
+import java.util.Collection;
+
 /**
  * 
  * The base for all other members of the bank. Has all identifying 
  * information for a person.
+ *
+ * MEL-CODE CHANGE: isUniqueUsername() used ArrayList<Person> without ever
+ * importing java.util.ArrayList, which would not compile. Changed the
+ * parameter type to Collection<Person> (and added the java.util import)
+ * so this works no matter which collection type RunBank stores users in
+ * (we now use a HashMap, see RunBank/BankFileManager for why).
  */
 public class Person {
 
@@ -55,6 +63,24 @@ public class Person {
         return lastName;
     }
 
+    /**
+     * MEL-CODE ADDITION: getDateOfBirth/getAddress/getPhoneNumber were
+     * missing entirely, even though the field is set in the constructor.
+     * These are needed for the "View Profile" menu option and for writing
+     * the updated Bank Users CSV back out on exit.
+     */
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -79,7 +105,7 @@ public class Person {
         this.lastName = newLastName;
     }
 
-    public boolean isUniqueUsername(ArrayList<Person> users, String newUsername){
+    public boolean isUniqueUsername(Collection<Person> users, String newUsername){
         for(Person user: users){
             if(user.getUsername().equals(newUsername)){
                 return false;
