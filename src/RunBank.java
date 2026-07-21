@@ -311,8 +311,8 @@ public class RunBank {
         if (amount <= 0) {
             return;
         }
-        if (from.withdraw(amount)) {
-            to.deposit(amount);
+        if (from.withdraw(amount, "Transfer to account " + to.getAccountNumber())) {
+            to.deposit(amount, "Transfer from account " + from.getAccountNumber());
             Logger1.log("User " + customer.getUsername() + " transferred $" + amount
                     + " from account " + from.getAccountNumber() + " to account " + to.getAccountNumber());
             System.out.println("Transfer successful.");
@@ -335,7 +335,7 @@ public class RunBank {
         if (amount <= 0) {
             return;
         }
-        if (from.withdraw(amount)) {
+        if (from.withdraw(amount, "Transfer to external account " + externalAccount)) {
             Logger1.log("User " + customer.getUsername() + " transferred $" + amount
                     + " from account " + from.getAccountNumber() + " to external account " + externalAccount);
             System.out.println("Transfer to external account successful.");

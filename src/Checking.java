@@ -23,11 +23,12 @@ public class Checking extends Account {
     }
 
     @Override
-    public boolean withdraw(double amount) {
+    public boolean withdraw(double amount, String note) {
 
-        if(amount <= balance){
+        if(amount > 0 && amount <= balance){
 
             balance -= amount;
+            recordTransaction(Transaction.Type.WITHDRAW, amount, note);
             return true;
 
         }
