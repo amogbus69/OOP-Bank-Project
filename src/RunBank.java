@@ -321,27 +321,77 @@ public class RunBank {
         }
     }
 
-    // TODO(#3): transferExternalFlow only withdraws from the sender and logs
-    // the transfer - it never looks up the recipient by name + account number
-    // or deposits into their account. See issue #3 for the real fix.
     private static void transferExternalFlow(Customer customer) {
         Account from = chooseAccount(customer, "Transfer FROM which account?");
         if (from == null) {
             return;
         }
-        System.out.print("Enter external account number: ");
-        String externalAccount = scanner.nextLine().trim();
+
+        System.out.print("Recipient's first name: ");
+        String firstName = scanner.nextLine().trim();
+        System.out.print("Recipient's last name: ");
+        String lastName = scanner.nextLine().trim();
+        System.out.print("Recipient's account number: ");
+        String accountNumberRaw = scanner.nextLine().trim();
+
+        int accountNumber;
+        try {
+            accountNumber = Integer.parseInt(accountNumberRaw);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid account number.");
+            return;
+        }
+
+        Account to = findAccountByNameAndNumber(firstName, lastName, accountNumber);
+        if (to == null) {
+            System.out.println("No account found matching that name and account number.");
+            return;
+        }
+
+        // TODO(#5): should reject transferring to your own account here.
         double amount = promptAmount();
         if (amount <= 0) {
             return;
         }
-        if (from.withdraw(amount, "Transfer to external account " + externalAccount)) {
+
+        String recipientLabel = firstName + " " + lastName + "'s account " + to.getAccountNumber();
+        if (from.withdraw(amount, "Transfer to " + recipientLabel)) {
+            to.deposit(amount, "Transfer from account " + from.getAccountNumber());
             Logger1.log("User " + customer.getUsername() + " transferred $" + amount
-                    + " from account " + from.getAccountNumber() + " to external account " + externalAccount);
+                    + " from account " + from.getAccountNumber() + " to " + recipientLabel);
             System.out.println("Transfer to external account successful.");
         } else {
             System.out.println("Transfer failed: insufficient funds/available credit.");
         }
+    }
+
+    /**
+     * Looks up a Customer's Checking, Saving, or Credit account by the
+     * owner's first + last name and the account number itself.
+     * @return the matching Account, or null if no customer matches both
+     */
+    private static Account findAccountByNameAndNumber(String firstName, String lastName, int accountNumber) {
+        for (Person person : users.values()) {
+            if (!(person instanceof Customer)) {
+                continue;
+            }
+            if (!person.getFirstName().equalsIgnoreCase(firstName)
+                    || !person.getLastName().equalsIgnoreCase(lastName)) {
+                continue;
+            }
+
+            Customer candidate = (Customer) person;
+            if (candidate.getChecking().getAccountNumber() == accountNumber) {
+                return candidate.getChecking();
+            }
+            if (candidate.getSaving().getAccountNumber() == accountNumber) {
+                return candidate.getSaving();
+            }
+            if (candidate.getCredit().getAccountNumber() == accountNumber) {
+                return candidate.getCredit();
+            }
+        }
+        return null;
     }
 
     public static void viewBalanceMenu(Customer customer) {
