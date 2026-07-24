@@ -52,10 +52,11 @@ public class Credit extends Account{
      * max (assumption per assignment: no minimum payment, no interest).
      */
     @Override
-    public boolean withdraw(double amount){
+    public boolean withdraw(double amount, String note){
         if(amount > 0 && amount <= getAvailableCredit()){
 
             balance -= amount;
+            recordTransaction(Transaction.Type.WITHDRAW, amount, note);
             return true;
 
         }
@@ -69,9 +70,10 @@ public class Credit extends Account{
      * never go positive (you can't "overpay" past $0 owed).
      */
     @Override
-    public void deposit(double amount){
+    public void deposit(double amount, String note){
         if(amount > 0){
             balance = Math.min(0, balance + amount);
+            recordTransaction(Transaction.Type.DEPOSIT, amount, note);
         }
     }
 

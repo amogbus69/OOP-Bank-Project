@@ -30,6 +30,7 @@ when you choose **Exit** from the main menu.
 | `Customer.java`, `BankManager.java`, `Admin.java` | `Person` subtypes |
 | `Account.java` | Abstract base class for accounts |
 | `Checking.java`, `Saving.java`, `Credit.java` | `Account` subtypes |
+| `Transaction.java` | A single deposit/withdrawal record (type, amount, timestamp, optional note) kept in an account's transaction history |
 | `BankFileManager.java` | Reads `BankUsers.csv` into `Person`/`Customer` objects and writes it back out on exit |
 | `IDGenerator.java` | Generates unique user IDs and account numbers |
 | `Logger1.java` | Appends timestamped action entries to `log.txt` across sessions |
@@ -43,6 +44,28 @@ User IDs are already required to be unique, and Admin operations
 login, so a `HashMap` gives O(1) lookup/add/remove by ID instead of the
 O(n) linear scan an `ArrayList` would require. Search by name or username
 (which isn't the map key) is still O(n), same as it would be with a list.
+
+## Manage Transactions
+
+Customer menu → **Manage Transactions** supports:
+
+- **Deposit** — into Checking, Saving, or Credit (a Credit deposit pays
+  down the balance; it never goes positive).
+- **Withdraw** — from Checking, Saving, or Credit (a Credit withdraw
+  charges the card, up to `creditMax`).
+- **Transfer between Accounts** — moves money between two of your own
+  accounts.
+- **Transfer to External Account** — currently withdraws from the chosen
+  account and logs the transfer, but does not yet look up the recipient
+  or deposit into their account (tracked as a known gap — see
+  [issue #3](https://github.com/amogbus69/OOP-Bank-Project/issues/3)).
+
+Every successful deposit/withdrawal (including both legs of an internal
+transfer) is recorded as a `Transaction` on the account it happened on —
+type (`DEPOSIT`/`WITHDRAW`), amount, timestamp, and an optional note
+(e.g. the counterparty account for a transfer). Call
+`account.getTransactionHistory()` to read an account's history; this is
+what future transaction-report features will build on.
 
 ## mel-code branch — changes from amogbus-code
 
@@ -90,9 +113,12 @@ project builds and runs end-to-end. See inline `MEL-CODE CHANGE` /
   registration (the CSV file doesn't include a credit score column, so
   customers loaded from the file default to a placeholder score of 0 —
   their real credit limit/balance are still loaded correctly).
-- "Transfer to an external account" withdraws from the chosen internal
-  account and logs the transfer; since external accounts are outside
-  this system, there's nothing on our end to deposit into or validate.
+- "Transfer to an external account" currently only withdraws from the
+  chosen internal account and logs the transfer — see
+  [issue #3](https://github.com/amogbus69/OOP-Bank-Project/issues/3) for
+  the planned fix (look up the recipient by name + account number within
+  this bank's own customer records, and actually deposit into their
+  account).
 - Bank Manager login currently shows a placeholder message, since Bank
   Manager functionality is explicitly scoped to a later part of the
   assignment.
